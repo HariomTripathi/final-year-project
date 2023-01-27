@@ -58,6 +58,7 @@ def RegisterAuthentication():
             msg = 'All Fields are required!'
         else:
             cur.execute("INSERT INTO accounts (username, password, email) VALUES (%s,%s,%s)", (username, password, email))
+            con.commit()
             return redirect(url_for('home'))
     return render_template('index.html', msg)
 
