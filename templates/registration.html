@@ -7,15 +7,17 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Signin form</h1>
-    <form action="{{ url_for('SigninAuthentication') }}" method="POST">
+    <h1>Registration form</h1>
+    <form action="{{ url_for('RegisterAuthentication') }}" method="POST">
         <label>Username</label><br>
         <input type="text" class="form" name="username"><br>
         <label>Password</label><br>
         <input type="password" class="form" name="password"><br>
+        <label>Email</label><br>
+        <input type="email" class="form" name="email"><br>
 
         <input type="submit" class="myButton" value="Predict Score">
     </form>
-    <p>Not a member? <a href="/Registration">Create Account</a></p>
+    <p>Already a user? <a href="/">Sign In</a></p>
 </body>
 </html>
