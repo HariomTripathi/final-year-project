@@ -7,6 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>hello!!</h1>
+    <form action="{{ url_for('ValidateOTP') }}" method="POST">
+        <label>Enter OTP</label><br>
+        <input type="password" class="form" name="otpe"><br>
+
+        <input type="submit" class="myButton" value="Login">
+    </form>
 </body>
 </html>
