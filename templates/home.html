@@ -1,13 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card {
+            width: 300px;
+            margin: 10px;
+            padding: 40px;
+            height: 450px;
+            border-radius: 15px;
+        }
+
+        .card img {
+            height: 150px;
+            width: 150px;
+        }
+
+        #gt {
+            background: linear-gradient(180deg, #1C1C1C 0%, #0B4973 100%);
+            border: 2px solid #0B4973;
+        }
+
+        #kkr {
+            background: linear-gradient(180deg, #3B215D 0%, #552792 100%);
+            border: 2px solid #552792;
+        }
+
+        #lsg {
+            background: linear-gradient(180deg, #A72056 0%, #FFCC00 100%);
+            border: 2px solid #FFCC00;
+        }
+
+        #mi {
+            background: linear-gradient(180deg, #006CB7 0%, #003B7A 100%);
+            border: 2px solid #003B7A
+        }
+
+        #pk {
+            background: linear-gradient(180deg, #D71920 0%, #84171B 100%);
+            border: 2px solid #84171B;
+        }
+
+        #rr {
+            background: linear-gradient(180deg, #EA1A85 0%, #001D48 100%);
+            border: 2px solid #001D48
+        }
+
+        #rcb {
+            background: linear-gradient(180deg, #6A6A6A 0%, #1C1C1C 100%);
+            border: 2px solid #1C1C1C
+        }
+
+        #srh {
+            background: linear-gradient(180deg, #F26522 0%, #ED1A37 100%);
+            border: 2px solid #ED1A37;
+        }
+
+        #csk {
+            background: linear-gradient(180deg, #FCCA06 0%, #F25C19 100%);
+            border: 2px solid #F25C19
+        }
+
+        #dc {
+            background: linear-gradient(180deg, #0078BC 0%, #17479E 100%);
+            border: 2px solid #17479E
+        }
+
+        .flex-container {
+            display: flex;
+
+            /* background-color: #32a852; */
+        }
+
+        .h2 {
+            padding-left: 30px;
+            margin-top: 20px;
+            font-size: 32px;
+            color: #EF4123;
+            font-weight: 700;
+            font-style: italic;
+            margin-bottom: 0;
+        }
+
+        .flex-container div {
+            /* background-color: #c9d1cb; */
+
+            text-align: center;
+        }
+
+        .col-100 {
+            width: 100%;
+        }
+
+        .floatLft {
+            float: left;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 </head>
+
 <body>
-    <h1>hello!!</h1>
-    <a href="/logout"> Logout</a>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">WhoWins!</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>Welcome User</p><a class="nav-link active" style="padding-right: 10px" href="#">
+                {{session.username}}</a>
+                <form class="d-flex" role="search" action="{{ url_for('logout') }}">
+                    <button class="btn btn-outline-success" type="submit">Logout</button>
+                </form>
+                <form class="d-flex" role="search" action="{{ url_for('create_checkout_session') }}">
+                    <button class="btn btn-outline-success" type="submit">Payment</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div>
+        <p class="h2">Teams</p>
+    </div>
+    <div class="flex-container" style="width: 100%;">
+        <div class="card" id="csk">
+            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/CSK/logos/Roundbig/CSKroundbig.png"
+                class="card-img-top" alt="...">
+            <div class="card-body col-100 floatLft">
+                <h3 class="card-text text-white">Chennai Super </h3>
+                <h3 class="card-text text-white">Kings </h3>
+                <br>
+                <h6 class="card-text text-white">M.A.Chidambaram Stadium</h6>
+            </div>
+
+        </div>
+        <div class="card" id="dc">
+            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/DC/Logos/Roundbig/DCroundbig.png"
+                class="card-img-top" alt="...">
+            <div class="card-body">
+                <h3 class="card-text text-white">Delhi</h3>
+                <h3 class="card-text text-white">Capitals</h3>
+                <br>
+                <h6 class="card-text text-white">Arun Jaitley Stadium</h6>
+            </div>
+        </div>
+        <div class="card" id="gt">
+            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/GT/Logos/Roundbig/GTroundbig.png"
+                class="card-img-top" alt="...">
+            <div class="card-body col-100 floatLft">
+                <h3 class="card-text text-white">Gujrat </h3>
+                <h3 class="card-text text-white">Titans </h3>
+                <br>
+                <h6 class="card-text text-white">Narendra Modi Stadium</h6>
+            </div>
+        </div>
+        <div class="card" id="kkr">
+            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/KKR/Logos/Roundbig/KKRroundbig.png"
+                class="card-img-top" alt="...">
+            <div class="card-body col-100 floatLft">
+                <h3 class="card-text text-white">Kolkata Knight </h3>
+                <h3 class="card-text text-white">Riders </h3>
+                <br>
+                <h6 class="card-text text-white">Eden Gardens</h6>
+            </div>
+        </div>
+    </div>
+    <div class="flex-container" style="width: 100%;">
+        <div class="card" id="lsg">
+            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/LSG/Logos/Roundbig/LSGroundbig.png"
+                class="card-img-top" alt="...">
+            <div class="card-body col-100 floatLft">
+                <h3 class="card-text text-white">Lucknow Super</h3>
+                <h3 class="card-text text-white">Giants </h3>
+                <br>
+                <h6 class="card-text text-white">Ekana Cricket Stadium</h6>
+            </div>
+        </div>
+        <div class="card" id="mi">
+            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/MI/Logos/Roundbig/MIroundbig.png"
+                class="card-img-top" alt="...">
+            <div class="card-body col-100 floatLft">
+                <h3 class="card-text text-white">Mumbai </h3>
+                <h3 class="card-text text-white">Indians </h3>
+                <br>
+                <h6 class="card-text text-white">Wankhede Stadium</h6>
+            </div>
+        </div>
+        <div class="card" id="pk">
+            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/PBKS/Logos/Roundbig/PBKSroundbig.png"
+                class="card-img-top" alt="...">
+            <div class="card-body col-100 floatLft">
+                <h3 class="card-text text-white">Punjab </h3>
+                <h3 class="card-text text-white">Kings </h3>
+                <br>
+                <h6 class="card-text text-white">IS Bindra Stadium</h6>
+            </div>
+        </div>
+        <div class="card" id="rr">
+            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/RR/Logos/Roundbig/RRroundbig.png"
+                class="card-img-top" alt="...">
+            <div class="card-body col-100 floatLft">
+                <h3 class="card-text text-white">Rajasthan </h3>
+                <h3 class="card-text text-white">Rojals </h3>
+                <br>
+                <h6 class="card-text text-white">Sawai Mansingh Stadium</h6>
+            </div>
+        </div>
+    </div>
+    <div class="flex-container" style="width: 100%; margin-left: 310px">
+        <div class="card" id="rcb">
+            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/RCB/Logos/Roundbig/RCBroundbig.png"
+                class="card-img-top" alt="...">
+            <div class="card-body col-100 floatLft">
+                <h3 class="card-text text-white">Royal Challengers </h3>
+                <h3 class="card-text text-white">Bangalore </h3>
+                <br>
+                <h6 class="card-text text-white">M. Chinnaswamy Stadium</h6>
+            </div>
+        </div>
+        <div class="card" id="srh">
+            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/SRH/Logos/Roundbig/SRHroundbig.png"
+                class="card-img-top" alt="...">
+            <div class="card-body col-100 floatLft">
+                <h3 class="card-text text-white">Sunrisers </h3>
+                <h3 class="card-text text-white">Hyderabad </h3>
+                <br>
+                <h6 class="card-text text-white">Rajiv Gandhi Intl. Cricket Stadium</h6>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

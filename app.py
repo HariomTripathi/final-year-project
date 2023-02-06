@@ -1,8 +1,6 @@
 import random
-
-from flask import Flask, render_template, request, session, redirect, url_for
-import pickle
-import numpy as np
+import stripe
+from flask import Flask, render_template, request, session, redirect
 import os
 import pymysql
 from twilio.rest import Client
@@ -12,6 +10,31 @@ app.secret_key = os.urandom(24)
 
 con = pymysql.connect(host='localhost', port=3306, user='root', password='Mysql@123', database="whowins")
 cur = con.cursor()
+
+
+@app.route('/create_checkout_session', methods=['POST', 'GET'])
+def create_checkout_session():
+    try:
+
+        stripe.api_key = "sk_test_51MX4FKSAiZcXYUcJevfTY3LWCFU1lotHrq5dabjHZY6Ncpeg7AXxt6jS6vObKZzmYtb9yR9TrFIEFEKD1sO" \
+                         "N8XRk00mlYpCp8M "
+
+        checkout_session = stripe.checkout.Session.create(
+            line_items=[
+                {
+                    "price": "price_1MX4RXSAiZcXYUcJLRx2DHOK",
+                    "quantity": 1
+                }
+            ],
+            mode="payment",
+            success_url="http://127.0.0.1:5500/templates/call.html",
+
+            cancel_url="http://127.0.0.1:5500/templates/cancel.html"
+        )
+    except Exception as e:
+        return str(e)
+
+    return redirect(checkout_session.url, code=303)
 
 
 @app.route('/')
