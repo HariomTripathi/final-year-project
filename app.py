@@ -8,6 +8,8 @@ from twilio.rest import Client
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
+stripe.api_key = "sk_test_51MX4FKSAiZcXYUcJevfTY3LWCFU1lotHrq5dabjHZY6Ncpeg7AXxt6jS6vObKZzmYtb9yR9TrFIEFEKD1sON8XRk00mlYpCp8M"
+
 con = pymysql.connect(host='localhost', port=3306, user='root', password='Mysql@123', database="whowins")
 cur = con.cursor()
 
