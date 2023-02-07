@@ -128,31 +128,13 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pricing.html">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('pricing') }}">Pricing</a>
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('predicthome')}}">Predict</a>
                 </ul>
                 <p>Welcome User</p><a class="nav-link active" style="padding-right: 10px" href="#">
                 {{session.username}}</a>
                 <form class="d-flex" role="search" action="{{ url_for('logout') }}">
                     <button class="btn btn-outline-success" type="submit">Logout</button>
-                </form>
-                <form class="d-flex" role="search" action="{{ url_for('create_checkout_session') }}">
-                    <button class="btn btn-outline-success" type="submit">Payment</button>
                 </form>
             </div>
         </div>
@@ -246,7 +228,7 @@
             </div>
         </div>
     </div>
-    <div class="flex-container" style="width: 100%; margin-left: 310px">
+    <div class="flex-container" style="width: 55%; margin-left: 310px">
         <div class="card" id="rcb">
             <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/RCB/Logos/Roundbig/RCBroundbig.png"
                 class="card-img-top" alt="...">

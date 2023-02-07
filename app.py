@@ -4,6 +4,8 @@ from flask import Flask, render_template, request, session, redirect
 import os
 import pymysql
 from twilio.rest import Client
+import pickle
+import numpy as np
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -12,6 +14,9 @@ stripe.api_key = "sk_test_51MX4FKSAiZcXYUcJevfTY3LWCFU1lotHrq5dabjHZY6Ncpeg7AXxt
 
 con = pymysql.connect(host='localhost', port=3306, user='root', password='Mysql@123', database="whowins")
 cur = con.cursor()
+
+filename = 'first-innings-score-lr-model.pkl'
+regressor = pickle.load(open(filename, 'rb'))
 
 
 @app.route('/create_checkout_session3m',methods=['POST', 'GET'])
@@ -25,8 +30,8 @@ def create_checkout_session3m():
                 }
             ],
             mode="payment",
-            #success_url=render_template(YOUR_DOMAIN + '/s.html'),
-            success_url="http://127.0.0.1:5500/templates/s.html",
+
+            success_url= "http://127.0.0.1:5000/amount3m",
             
             cancel_url = "http://127.0.0.1:5500/templates/cancel.html"
         )
@@ -35,6 +40,21 @@ def create_checkout_session3m():
  
     return redirect(checkout_session.url,code=303)
  
+
+@app.route('/amount3m' , methods=['POST','GET'])
+def amount3m():
+    username = session['username']
+    cur.execute('select * from accounts where username=%s',(username) )
+    row = cur.fetchone()
+    a=row[5]
+    if a is None:
+        a = 0
+    a=int(a)+3
+    a=str(a)
+    cur.execute('update accounts set subscription=%s where username=%s',(a,username) )
+    con.commit()
+    return redirect('/')
+
 
 @app.route('/create_checkout_session6m',methods=['POST', 'GET'])
 def create_checkout_session6m():
@@ -47,8 +67,7 @@ def create_checkout_session6m():
                 }
             ],
             mode="payment",
-            #success_url=render_template(YOUR_DOMAIN + '/s.html'),
-            success_url="http://127.0.0.1:5500/templates/s.html",
+            success_url="http://127.0.0.1:5000/amount6m",
             
             cancel_url = "http://127.0.0.1:5500/templates/cancel.html"
         )
@@ -57,6 +76,21 @@ def create_checkout_session6m():
  
     return redirect(checkout_session.url,code=303)
  
+
+@app.route('/amount6m' , methods=['POST','GET'])
+def amount6m():
+    username = session['username']
+    cur.execute('select * from accounts where username=%s',(username) )
+    row = cur.fetchone()
+    a=row[5]
+    if a is None:
+        a = 0
+    a=int(a)+6
+    a=str(a)
+    cur.execute('update accounts set subscription=%s where username=%s',(a,username) )
+    con.commit()
+    return redirect('/')
+
 
 @app.route('/create_checkout_session12m',methods=['POST', 'GET'])
 def create_checkout_session12m():
@@ -69,16 +103,30 @@ def create_checkout_session12m():
                 }
             ],
             mode="payment",
-            #success_url=render_template(YOUR_DOMAIN + '/s.html'),
-            success_url="http://127.0.0.1:5500/templates/s.html",
+            success_url="http://127.0.0.1:5000/amount12m",
             
-            cancel_url = "http://127.0.0.1:5500/templates/cancel.html"
+            cancel_url = "http://127.0.0.1:5000/templates/cancel.html"
         )
     except Exception as e:
         return str(e)
  
     return redirect(checkout_session.url,code=303)
  
+
+@app.route('/amount12m' , methods=['POST','GET'])
+def amount12m():
+    username = session['username']
+    cur.execute('select * from accounts where username=%s',(username) )
+    row = cur.fetchone()
+    a=row[5]
+    if a is None:
+        a = 0
+    a=int(a)+12
+    a=str(a)
+    cur.execute('update accounts set subscription=%s where username=%s',(a,username) )
+    con.commit()
+    return redirect('/')
+
 
 @app.route('/')
 def index():
@@ -94,6 +142,11 @@ def home():
         return render_template('home.html', username=session['username'])
     else:
         return redirect('/')
+
+
+@app.route('/pricing')
+def pricing():
+    return render_template('pricing.html')
 
 
 @app.route('/SigninAuthentication', methods=['POST', 'GET'])
@@ -118,11 +171,6 @@ def SigninAuthentication():
     return render_template('index.html', msg)
 
 
-@app.route('/Registration')
-def Register():
-    return render_template('registration.html')
-
-
 @app.route('/RegisterAuthentication', methods=['POST', 'GET'])
 def RegisterAuthentication():
     msg = ""
@@ -135,8 +183,8 @@ def RegisterAuthentication():
         if username == "" or password == "" or email == "":
             msg = 'All Fields are required!'
         else:
-            cur.execute("INSERT INTO accounts (username, password, email, mobileno) VALUES (%s,%s,%s,%s)",
-                        (username, password, email, mobno))
+            a='0'
+            cur.execute("INSERT INTO accounts (username, password, email, mobileno, subscription) VALUES (%s,%s,%s,%s,%s)",(username, password, email, mobno, a))
             con.commit()
             cur.execute('select * from accounts where username=%s and password=%s', (username, password))
             row = cur.fetchone()
@@ -196,6 +244,69 @@ def ValidateOTP():
             return redirect('/home')
         else:
             return redirect('/logout')
+
+
+@app.route('/predicthome')
+def predicthome():
+    return render_template('predicthome.html')
+
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    temp_array = list()
+    
+    if request.method == 'POST':
+        
+        batting_team = request.form['batting-team']
+        if batting_team == 'Chennai Super Kings':
+            temp_array = temp_array + [1,0,0,0,0,0,0,0]
+        elif batting_team == 'Delhi Daredevils':
+            temp_array = temp_array + [0,1,0,0,0,0,0,0]
+        elif batting_team == 'Kings XI Punjab':
+            temp_array = temp_array + [0,0,1,0,0,0,0,0]
+        elif batting_team == 'Kolkata Knight Riders':
+            temp_array = temp_array + [0,0,0,1,0,0,0,0]
+        elif batting_team == 'Mumbai Indians':
+            temp_array = temp_array + [0,0,0,0,1,0,0,0]
+        elif batting_team == 'Rajasthan Royals':
+            temp_array = temp_array + [0,0,0,0,0,1,0,0]
+        elif batting_team == 'Royal Challengers Bangalore':
+            temp_array = temp_array + [0,0,0,0,0,0,1,0]
+        elif batting_team == 'Sunrisers Hyderabad':
+            temp_array = temp_array + [0,0,0,0,0,0,0,1]
+            
+            
+        bowling_team = request.form['bowling-team']
+        if bowling_team == 'Chennai Super Kings':
+            temp_array = temp_array + [1,0,0,0,0,0,0,0]
+        elif bowling_team == 'Delhi Daredevils':
+            temp_array = temp_array + [0,1,0,0,0,0,0,0]
+        elif bowling_team == 'Kings XI Punjab':
+            temp_array = temp_array + [0,0,1,0,0,0,0,0]
+        elif bowling_team == 'Kolkata Knight Riders':
+            temp_array = temp_array + [0,0,0,1,0,0,0,0]
+        elif bowling_team == 'Mumbai Indians':
+            temp_array = temp_array + [0,0,0,0,1,0,0,0]
+        elif bowling_team == 'Rajasthan Royals':
+            temp_array = temp_array + [0,0,0,0,0,1,0,0]
+        elif bowling_team == 'Royal Challengers Bangalore':
+            temp_array = temp_array + [0,0,0,0,0,0,1,0]
+        elif bowling_team == 'Sunrisers Hyderabad':
+            temp_array = temp_array + [0,0,0,0,0,0,0,1]
+            
+            
+        overs = float(request.form['overs'])
+        runs = int(request.form['runs'])
+        wickets = int(request.form['wickets'])
+        runs_in_prev_5 = int(request.form['runs_in_prev_5'])
+        wickets_in_prev_5 = int(request.form['wickets_in_prev_5'])
+        
+        temp_array = temp_array + [overs, runs, wickets, runs_in_prev_5, wickets_in_prev_5]
+        
+        data = np.array([temp_array])
+        my_prediction = int(regressor.predict(data)[0])
+              
+        return render_template('result.html', lower_limit = my_prediction-10, upper_limit = my_prediction+5)
 
 
 if __name__ == '__main__':
