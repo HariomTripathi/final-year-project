@@ -17,10 +17,10 @@
         }
 
         .card {
-            width: 300px;
+            width: 290px;
             margin: 10px;
             padding: 40px;
-            height: 450px;
+            height: 430px;
             border-radius: 15px;
         }
 
@@ -81,7 +81,7 @@
 
         .flex-container {
             display: flex;
-
+            margin-left: 10px;
             /* background-color: #32a852; */
         }
 
@@ -141,114 +141,140 @@
     </nav>
 
     <div>
-        <p class="h2">Teams</p>
+        <p class="h2">Pick Your Team</p>
     </div>
     <div class="flex-container" style="width: 100%;">
-        <div class="card" id="csk">
-            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/CSK/logos/Roundbig/CSKroundbig.png"
+        <a href="{{ url_for('csk') }}">
+            <div class="card" id="csk">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/CSK/logos/Roundbig/CSKroundbig.png"
                 class="card-img-top" alt="...">
-            <div class="card-body col-100 floatLft">
-                <h3 class="card-text text-white">Chennai Super </h3>
-                <h3 class="card-text text-white">Kings </h3>
-                <br>
-                <h6 class="card-text text-white">M.A.Chidambaram Stadium</h6>
+                <div class="card-body col-100 floatLft">
+                    <h3 class="card-text text-white">Chennai Super </h3>
+                    <h3 class="card-text text-white">Kings </h3>
+                    <br>
+                    <h6 class="card-text text-white">M.A.Chidambaram Stadium</h6>
+                </div>
             </div>
-
-        </div>
-        <div class="card" id="dc">
-            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/DC/Logos/Roundbig/DCroundbig.png"
+        </a>
+        
+        <a href="{{ url_for('dc') }}">
+            <div class="card" id="dc">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/DC/Logos/Roundbig/DCroundbig.png"
                 class="card-img-top" alt="...">
-            <div class="card-body">
-                <h3 class="card-text text-white">Delhi</h3>
-                <h3 class="card-text text-white">Capitals</h3>
-                <br>
-                <h6 class="card-text text-white">Arun Jaitley Stadium</h6>
+                <div class="card-body">
+                    <h3 class="card-text text-white">Delhi</h3>
+                    <h3 class="card-text text-white">Capitals</h3>
+                    <br>
+                    <h6 class="card-text text-white">Arun Jaitley Stadium</h6>
+                </div>
             </div>
-        </div>
-        <div class="card" id="gt">
-            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/GT/Logos/Roundbig/GTroundbig.png"
+        </a>
+        
+        <a href="{{ url_for('gt') }}">
+            <div class="card" id="gt">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/GT/Logos/Roundbig/GTroundbig.png"
                 class="card-img-top" alt="...">
-            <div class="card-body col-100 floatLft">
-                <h3 class="card-text text-white">Gujrat </h3>
-                <h3 class="card-text text-white">Titans </h3>
-                <br>
-                <h6 class="card-text text-white">Narendra Modi Stadium</h6>
+                <div class="card-body col-100 floatLft">
+                    <h3 class="card-text text-white">Gujarat </h3>
+                    <h3 class="card-text text-white">Titans </h3>
+                    <br>
+                    <h6 class="card-text text-white">Narendra Modi Stadium</h6>
+                </div>
             </div>
-        </div>
-        <div class="card" id="kkr">
-            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/KKR/Logos/Roundbig/KKRroundbig.png"
+        </a>
+        
+        <a href="{{ url_for('kkr') }}">
+            <div class="card" id="kkr">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/KKR/Logos/Roundbig/KKRroundbig.png"
                 class="card-img-top" alt="...">
-            <div class="card-body col-100 floatLft">
-                <h3 class="card-text text-white">Kolkata Knight </h3>
-                <h3 class="card-text text-white">Riders </h3>
-                <br>
-                <h6 class="card-text text-white">Eden Gardens</h6>
+                <div class="card-body col-100 floatLft">
+                    <h3 class="card-text text-white">Kolkata Knight </h3>
+                    <h3 class="card-text text-white">Riders </h3>
+                    <br>
+                    <h6 class="card-text text-white">Eden Gardens</h6>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
     <div class="flex-container" style="width: 100%;">
-        <div class="card" id="lsg">
-            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/LSG/Logos/Roundbig/LSGroundbig.png"
+        <a href="{{ url_for('lsg') }}">
+            <div class="card" id="lsg">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/LSG/Logos/Roundbig/LSGroundbig.png"
                 class="card-img-top" alt="...">
-            <div class="card-body col-100 floatLft">
-                <h3 class="card-text text-white">Lucknow Super</h3>
-                <h3 class="card-text text-white">Giants </h3>
-                <br>
-                <h6 class="card-text text-white">Ekana Cricket Stadium</h6>
+                <div class="card-body col-100 floatLft">
+                    <h3 class="card-text text-white">Lucknow Super</h3>
+                    <h3 class="card-text text-white">Giants </h3>
+                    <br>
+                    <h6 class="card-text text-white">Ekana Cricket Stadium</h6>
+                </div>
             </div>
-        </div>
-        <div class="card" id="mi">
-            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/MI/Logos/Roundbig/MIroundbig.png"
+        </a>
+        
+        <a href="{{ url_for('mi') }}">
+            <div class="card" id="mi">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/MI/Logos/Roundbig/MIroundbig.png"
                 class="card-img-top" alt="...">
-            <div class="card-body col-100 floatLft">
-                <h3 class="card-text text-white">Mumbai </h3>
-                <h3 class="card-text text-white">Indians </h3>
-                <br>
-                <h6 class="card-text text-white">Wankhede Stadium</h6>
+                <div class="card-body col-100 floatLft">
+                    <h3 class="card-text text-white">Mumbai </h3>
+                    <h3 class="card-text text-white">Indians </h3>
+                    <br>
+                    <h6 class="card-text text-white">Wankhede Stadium</h6>
+                </div>
             </div>
-        </div>
-        <div class="card" id="pk">
-            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/PBKS/Logos/Roundbig/PBKSroundbig.png"
+        </a>
+        
+        <a href="{{ url_for('pk') }}">
+            <div class="card" id="pk">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/PBKS/Logos/Roundbig/PBKSroundbig.png"
                 class="card-img-top" alt="...">
-            <div class="card-body col-100 floatLft">
-                <h3 class="card-text text-white">Punjab </h3>
-                <h3 class="card-text text-white">Kings </h3>
-                <br>
-                <h6 class="card-text text-white">IS Bindra Stadium</h6>
+                <div class="card-body col-100 floatLft">
+                    <h3 class="card-text text-white">Punjab </h3>
+                    <h3 class="card-text text-white">Kings </h3>
+                    <br>
+                    <h6 class="card-text text-white">IS Bindra Stadium</h6>
+                </div>
             </div>
-        </div>
-        <div class="card" id="rr">
-            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/RR/Logos/Roundbig/RRroundbig.png"
+        </a>
+        
+        <a href="{{ url_for('rr') }}">
+            <div class="card" id="rr">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/RR/Logos/Roundbig/RRroundbig.png"
                 class="card-img-top" alt="...">
-            <div class="card-body col-100 floatLft">
-                <h3 class="card-text text-white">Rajasthan </h3>
-                <h3 class="card-text text-white">Rojals </h3>
-                <br>
-                <h6 class="card-text text-white">Sawai Mansingh Stadium</h6>
+                <div class="card-body col-100 floatLft">
+                    <h3 class="card-text text-white">Rajasthan </h3>
+                    <h3 class="card-text text-white">Rojals </h3>
+                    <br>
+                    <h6 class="card-text text-white">Sawai Mansingh Stadium</h6>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
-    <div class="flex-container" style="width: 55%; margin-left: 310px">
-        <div class="card" id="rcb">
-            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/RCB/Logos/Roundbig/RCBroundbig.png"
+    <div class="flex-container" style="width: 55%; margin-left: 320px">
+        <a href="{{ url_for('rcb') }}">
+            <div class="card" id="rcb">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/RCB/Logos/Roundbig/RCBroundbig.png"
                 class="card-img-top" alt="...">
-            <div class="card-body col-100 floatLft">
-                <h3 class="card-text text-white">Royal Challengers </h3>
-                <h3 class="card-text text-white">Bangalore </h3>
-                <br>
-                <h6 class="card-text text-white">M. Chinnaswamy Stadium</h6>
+                <div class="card-body col-100 floatLft">
+                    <h3 class="card-text text-white">Royal Challengers </h3>
+                    <h3 class="card-text text-white">Bangalore </h3>
+                    <br>
+                    <h6 class="card-text text-white">M. Chinnaswamy Stadium</h6>
+                </div>
             </div>
-        </div>
-        <div class="card" id="srh">
-            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/SRH/Logos/Roundbig/SRHroundbig.png"
+        </a>
+        
+        <a href="{{ url_for('srh') }}">
+            <div class="card" id="srh">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/SRH/Logos/Roundbig/SRHroundbig.png"
                 class="card-img-top" alt="...">
-            <div class="card-body col-100 floatLft">
-                <h3 class="card-text text-white">Sunrisers </h3>
-                <h3 class="card-text text-white">Hyderabad </h3>
-                <br>
-                <h6 class="card-text text-white">Rajiv Gandhi Intl. Cricket Stadium</h6>
+                <div class="card-body col-100 floatLft">
+                    <h3 class="card-text text-white">Sunrisers </h3>
+                    <h3 class="card-text text-white">Hyderabad </h3>
+                    <br>
+                    <h6 class="card-text text-white">Rajiv Gandhi Intl. Cricket Stadium</h6>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
 </body>
 

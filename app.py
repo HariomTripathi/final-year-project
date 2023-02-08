@@ -12,11 +12,129 @@ app.secret_key = os.urandom(24)
 
 stripe.api_key = "sk_test_51MX4FKSAiZcXYUcJevfTY3LWCFU1lotHrq5dabjHZY6Ncpeg7AXxt6jS6vObKZzmYtb9yR9TrFIEFEKD1sON8XRk00mlYpCp8M"
 
-con = pymysql.connect(host='localhost', port=3306, user='root', password='Mysql@123', database="whowins")
+con = pymysql.connect(host='sql12.freesqldatabase.com', port=3306, user='sql12596806', password='Mysql@123', database="sql12596806")
 cur = con.cursor()
 
 filename = 'first-innings-score-lr-model.pkl'
 regressor = pickle.load(open(filename, 'rb'))
+
+
+@app.route('/')
+def index():
+    if 'userid' in session:
+        return redirect('/home')
+    else:
+        return render_template('index.html')
+
+
+@app.route('/home')
+def home():
+    if 'userid' in session:
+        return render_template('home.html', username=session['username'])
+    else:
+        return redirect('/')
+
+
+@app.route('/SigninAuthentication', methods=['POST', 'GET'])
+def SigninAuthentication():
+    msg = ""
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        if username == "" or password == "":
+            msg = 'All Fields are required!'
+        else:
+            cur.execute('select * from accounts where username=%s and password=%s', (username, password))
+            row = cur.fetchone()
+            if row is None:
+                msg = 'Invalid Credentials. Please Try Again!'
+            else:
+                session['username'] = row[1]
+                session['userid'] = row[0]
+                session['mobno'] = row[4]
+                return redirect('/home')
+    return render_template('index.html', msg)
+
+
+@app.route('/RegisterAuthentication', methods=['POST', 'GET'])
+def RegisterAuthentication():
+    msg = ""
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        mobno = request.form['mobno']
+
+        if username == "" or password == "" or email == "":
+            msg = 'All Fields are required!'
+        else:
+            a='0'
+            cur.execute("INSERT INTO accounts (username, password, email, mobileno, subscription) VALUES (%s,%s,%s,%s,%s)",(username, password, email, mobno, a))
+            con.commit()
+            cur.execute('select * from accounts where username=%s and password=%s', (username, password))
+            row = cur.fetchone()
+            session['username'] = username
+            session['userid'] = row[0]
+            session['mobno'] = mobno
+            return redirect('/home')
+    return render_template('index.html', msg)
+
+
+@app.route('/OtpAuthentication')
+def OtpAuthentication():
+    if 'userid' in session:
+        mobno = session['mobno']
+        val = getOTPApi(mobno)
+        if val:
+            return render_template('getotp.html')
+    else:
+        return redirect('/')
+
+
+def getOTPApi(mobno):
+    account_sid = 'AC176c49b0ef6b5b8a84fd359c6c3464b1'
+    auth_token = '0f1df18a595e3735dadef290473753c3'
+    client = Client(account_sid, auth_token)
+    otp = random.randrange(100000, 999999)
+    session['response'] = str(otp)
+    body = 'Your Otp is ' + str(otp)
+    message = client.messages.create(
+        messaging_service_sid='MGcc756f34d7fc6c331b6eced9137df867',
+        body=body,
+        to=mobno
+    )
+    if message.sid:
+        return True
+    else:
+        return False
+
+
+@app.route('/ValidateOTP', methods=['Post'])
+def ValidateOTP():
+    otpe = request.form['otpe']
+    if 'response' in session:
+        otp = session['response']
+        session.pop('response', None)
+        if otp == otpe:
+            session['loggedin'] = True
+            return redirect('/home')
+        else:
+            return redirect('/logout')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('userid')
+    session.pop('username')
+    session['loggedin'] = False
+    session.pop('mobno')
+    return redirect('/')
+
+
+@app.route('/pricing')
+def pricing():
+    return render_template('pricing.html')
 
 
 @app.route('/create_checkout_session3m',methods=['POST', 'GET'])
@@ -128,124 +246,6 @@ def amount12m():
     return redirect('/')
 
 
-@app.route('/')
-def index():
-    if 'userid' in session:
-        return redirect('/home')
-    else:
-        return render_template('index.html')
-
-
-@app.route('/home')
-def home():
-    if 'userid' in session:
-        return render_template('home.html', username=session['username'])
-    else:
-        return redirect('/')
-
-
-@app.route('/pricing')
-def pricing():
-    return render_template('pricing.html')
-
-
-@app.route('/SigninAuthentication', methods=['POST', 'GET'])
-def SigninAuthentication():
-    msg = ""
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        if username == "" or password == "":
-            msg = 'All Fields are required!'
-        else:
-            cur.execute('select * from accounts where username=%s and password=%s', (username, password))
-            row = cur.fetchone()
-            if row is None:
-                msg = 'Invalid Credentials. Please Try Again!'
-            else:
-                session['username'] = row[1]
-                session['userid'] = row[0]
-                session['mobno'] = row[4]
-                return redirect('/home')
-    return render_template('index.html', msg)
-
-
-@app.route('/RegisterAuthentication', methods=['POST', 'GET'])
-def RegisterAuthentication():
-    msg = ""
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        email = request.form['email']
-        mobno = request.form['mobno']
-
-        if username == "" or password == "" or email == "":
-            msg = 'All Fields are required!'
-        else:
-            a='0'
-            cur.execute("INSERT INTO accounts (username, password, email, mobileno, subscription) VALUES (%s,%s,%s,%s,%s)",(username, password, email, mobno, a))
-            con.commit()
-            cur.execute('select * from accounts where username=%s and password=%s', (username, password))
-            row = cur.fetchone()
-            session['username'] = username
-            session['userid'] = row[0]
-            session['mobno'] = mobno
-            return redirect('/home')
-    return render_template('index.html', msg)
-
-
-@app.route('/logout')
-def logout():
-    session.pop('userid')
-    session.pop('username')
-    session['loggedin'] = False
-    session.pop('mobno')
-    return redirect('/')
-
-
-@app.route('/OtpAuthentication')
-def OtpAuthentication():
-    if 'userid' in session:
-        mobno = session['mobno']
-        val = getOTPApi(mobno)
-        if val:
-            return render_template('getotp.html')
-    else:
-        return redirect('/')
-
-
-def getOTPApi(mobno):
-    account_sid = 'AC176c49b0ef6b5b8a84fd359c6c3464b1'
-    auth_token = '0f1df18a595e3735dadef290473753c3'
-    client = Client(account_sid, auth_token)
-    otp = random.randrange(100000, 999999)
-    session['response'] = str(otp)
-    body = 'Your Otp is ' + str(otp)
-    message = client.messages.create(
-        messaging_service_sid='MGcc756f34d7fc6c331b6eced9137df867',
-        body=body,
-        to=mobno
-    )
-    if message.sid:
-        return True
-    else:
-        return False
-
-
-@app.route('/ValidateOTP', methods=['Post'])
-def ValidateOTP():
-    otpe = request.form['otpe']
-    if 'response' in session:
-        otp = session['response']
-        session.pop('response', None)
-        if otp == otpe:
-            session['loggedin'] = True
-            return redirect('/home')
-        else:
-            return redirect('/logout')
-
-
 @app.route('/predicthome')
 def predicthome():
     return render_template('predicthome.html')
@@ -307,6 +307,56 @@ def predict():
         my_prediction = int(regressor.predict(data)[0])
               
         return render_template('result.html', lower_limit = my_prediction-10, upper_limit = my_prediction+5)
+
+
+@app.route('/csk')
+def csk():
+    return render_template('csk.html')
+
+
+@app.route('/dc')
+def dc():
+    return render_template('dc.html')
+
+
+@app.route('/gt')
+def gt():
+    return render_template('gt.html')
+
+
+@app.route('/kkr')
+def kkr():
+    return render_template('kkr.html')
+
+
+@app.route('/lsg')
+def lsg():
+    return render_template('lsg.html')
+
+
+@app.route('/mi')
+def mi():
+    return render_template('mi.html')
+
+
+@app.route('/pk')
+def pk():
+    return render_template('pk.html')
+
+
+@app.route('/rcb')
+def rcb():
+    return render_template('rcb.html')
+
+
+@app.route('/rr')
+def rr():
+    return render_template('rr.html')
+
+
+@app.route('/srh')
+def srh():  
+    return render_template('srh.html')
 
 
 if __name__ == '__main__':
