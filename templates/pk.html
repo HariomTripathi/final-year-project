@@ -1,12 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/5f3f547070.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='team-style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <title>Punjab Kings</title>
+    <style>
+        tr td{
+            color: #FFF;
+        }
+        tr a{
+            text-decoration: none;
+            color: #FFF;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Punjab Kings!</h1>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">WhoWins!</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('pricing') }}">Pricing</a>
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('predicthome')}}">Predict</a>
+                </ul>
+                <p>Welcome User</p><a class="nav-link active" style="padding-right: 10px" href="#">
+                    {{session.username}}</a>
+                <form class="d-flex" role="search" action="{{ url_for('logout') }}">
+                    <button class="btn btn-outline-success" type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div class="a1">
+        <img src='https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/MI/Banner/MIbanner.jpg' width="100%">
+        <div class="team-ban-bg">
+            <img style="width: 150px;"
+                src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/MI/Logos/Medium/MI.png" alt="">
+            <div class="c1">
+                <h2 style="color: #FFF;"><i><b>Punjab Kings</b></i></h2><br>
+                <a class="btn1" href="https://www.iplt20.com/teams/punjab-kings">Official Team Site</a><br>
+                <div class="vn-trophyBtn">
+                    <img src="https://www.iplt20.com/assets/images/vishal/ico-trophy.png" alt="">
+                    <span> </span>
+                </div>
+            </div>
+        </div>
+        <div class="b2">
+            <p style="color:#000000;text-align:left">Owner : <span>KPH Dream Cricket Private Limited</span> </p>
+            <p style="color:#000000;text-align:left;margin-left: 50px;">Coach : <span> Anil Kumble</span> </p>
+            <p style="color:#000000;text-align:left">Venue : <span>Punjab Cricket Association IS Bindra Stadium</span> </p>
+            <p style="color:#000000;text-align:left;margin-left: 75px;">Captain : <span>Shikhar Dhawan</span> </p>
+        </div>
+    </div>
+    <div id="a2">
+        <table class="table" style="background: linear-gradient(180deg, #0095ff 0%, #005fc5 100%);border-radius: 15px;">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Player Name</th>
+                    <th scope="col">Stance</th>
+                    <th scope="col">Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/41">Shikhar Dhawan(c)</a></td>
+                    <td>Left-handed</td>
+                    <td>Batter</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/20604">
+
+Bhanuka Rajapaksa</a></td>
+                    <td>Left-handed
+</td>
+                    <td> Batter</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/3185"> 
+Jitesh Sharma</a></td>
+                    <td>Right-handed
+</td>
+                
+                    <td>Wicketkeeper</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/506">
+Jonny Bairstow</a></td>
+                    <td>Right-handed</td>
+                
+                    <td>Wicketkeeper Batter</td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/5436">Prabhsimran Singh</a></td>
+                    <td> Right-handed</td>
+                
+                    <td>Wicketkeeper Batter</td>
+                </tr>
+                <tr>
+                    <th scope="row">6</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/20603">
+                        
+Atharva Taide</a></td>
+                    <td>Left-handed
+</td>
+                
+                    <td>All-rounder</td>
+                </tr>
+                <tr>
+                    <th scope="row">7</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/5441">
+                        
+Harpreet Brar</a></td>
+                    <td>Left-handed</td>
+                
+                    <td> Bowlerr</td>
+                </tr>
+                <tr>
+                    <th scope="row">8</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/3644">
+                        
+Liam Livingstone</a></td>
+                    <td>Right-handed</td>
+                
+                    <td>Batter</td>
+                </tr>
+                <tr>
+                    <th scope="row">9</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/20601">
+Kyle Mayers</a></td>
+                    <td>Left-handed	</td>
+                
+                    <td>All Rounderr</td>
+                </tr>
+                <tr>
+                    <th scope="row">10</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/1088">
+Rishi Dhawan</a></td>
+                    <td>Right- Handed</td>
+                
+                    <td>All-rounder</td>
+                </tr>
+                <tr>
+                    <th scope="row">11</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/7779">
+
+Shahrukh Khan</a></td>
+                    <td> Right-handed</td>
+                
+                    <td> Batter</td>
+                </tr>
+                <tr>
+                    <th scope="row">12</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/4698">Arshdeep Singh</a></td>
+                    <td>Left-handed</td>
+                
+                    <td>Bowler</td>
+                </tr>
+                <tr>
+                    <th scope="row">13</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/20607">Baltej Dhanda</a></td>
+                    <td>Right Handed</td>
+                
+                    <td> Bowler</td>
+                </tr>
+                <tr>
+                    <th scope="row">14</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/1664">
+
+Kagiso Rabada</a></td>
+                    <td>Left-handed</td>
+                
+                    <td>Bowler</td>
+                </tr>
+                <tr>
+                    <th scope="row">15</th>
+                    <td><a href="https://www.iplt20.com/teams/punjab-kings/squad-details/17118">
+Nathan Ellis</a></td>
+                    <td>Right-handed</td>
+                
+                    <td> Bowler</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
+
 </html>
