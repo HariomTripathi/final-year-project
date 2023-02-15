@@ -12,7 +12,7 @@ app.secret_key = os.urandom(24)
 
 stripe.api_key = "sk_test_51MX4FKSAiZcXYUcJevfTY3LWCFU1lotHrq5dabjHZY6Ncpeg7AXxt6jS6vObKZzmYtb9yR9TrFIEFEKD1sON8XRk00mlYpCp8M"
 
-con = pymysql.connect(host='sql12.freesqldatabase.com', port=3306, user='sql12596806', password='Mysql@123', database="sql12596806")
+con = pymysql.connect(host='db4free.net', port=3306, user='gautam001', password='Mysql@123', database="whowins")
 cur = con.cursor()
 
 filename = 'first-innings-score-lr-model.pkl'
