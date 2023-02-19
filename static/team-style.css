@@ -66,6 +66,10 @@ a:active {
     width: auto;
 }
 
+.img-thumbnail {
+    height: 150px;
+}
+
 .vn-trophyBtn span {
     display: inline-block;
     font-size: 14px;
@@ -74,14 +78,3 @@ a:active {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
-.img-thumbnail {
-    height: 150px;
-}
-
-#a2 {
-    margin: 30px;
-    width: 60%;
-    border: 2px #000000;
-}
-

@@ -311,52 +311,89 @@ def predict():
 
 @app.route('/csk')
 def csk():
-    return render_template('csk.html')
+    s = 'Chennai Super Kings'
+    cur.execute('select * from schedule where home =%s or away =%s',(s,s))
+    rows = cur.fetchall()
+    return render_template('csk.html', data = rows)
 
 
 @app.route('/dc')
 def dc():
-    return render_template('dc.html')
+    s = 'Delhi Capitals'
+    cur.execute('select * from schedule where home =%s or away =%s',(s,s))
+    rows = cur.fetchall()
+    return render_template('dc.html', data = rows)
 
 
 @app.route('/gt')
 def gt():
-    return render_template('gt.html')
+    s = 'Gujarat Titans'
+    cur.execute('select * from schedule where home =%s or away =%s',(s,s))
+    rows = cur.fetchall()
+    return render_template('gt.html', data = rows)
 
 
 @app.route('/kkr')
 def kkr():
-    return render_template('kkr.html')
+    s = 'Kolkata Knight Riders'
+    cur.execute('select * from schedule where home =%s or away =%s',(s,s))
+    rows = cur.fetchall()
+    return render_template('kkr.html', data = rows)
 
 
 @app.route('/lsg')
 def lsg():
-    return render_template('lsg.html')
+    s = 'Lucknow Super Giants'
+    cur.execute('select * from schedule where home =%s or away =%s',(s,s))
+    rows = cur.fetchall()
+    return render_template('lsg.html', data = rows)
 
 
 @app.route('/mi')
 def mi():
-    return render_template('mi.html')
+    s = 'Mumbai Indians'
+    cur.execute('select * from schedule where home =%s or away =%s',(s,s))
+    rows = cur.fetchall()
+    return render_template('mi.html', data = rows)
 
 
 @app.route('/pk')
 def pk():
-    return render_template('pk.html')
+    s = 'Punjab Kings'
+    cur.execute('select * from schedule where home =%s or away =%s',(s,s))
+    rows = cur.fetchall()
+    return render_template('pk.html', data = rows)
 
 
 @app.route('/rcb')
 def rcb():
-    return render_template('rcb.html')
+    s = 'Royal Challengers Bangalore'
+    cur.execute('select * from schedule where home =%s or away =%s',(s,s))
+    rows = cur.fetchall()
+    return render_template('rcb.html', data = rows)
 
 
 @app.route('/rr')
 def rr():
-    return render_template('rr.html')
+    s = 'Rajasthan Royals'
+    cur.execute('select * from schedule where home =%s or away =%s',(s,s))
+    rows = cur.fetchall()
+    return render_template('rr.html', data = rows)
 
 
 @app.route('/srh')
 def srh():  
-    return render_template('srh.html')
+    s = 'Sunrisers Hyderabad'
+    cur.execute('select * from schedule where home =%s or away =%s',(s,s))
+    rows = cur.fetchall()
+    return render_template('srh.html', data = rows)
+
+
+@app.route('/schedule')
+def schedule():
+    cur.execute('select * from schedule ')
+    rows = cur.fetchall()
+    return render_template('schedule.html', data = rows)
 
 
 if __name__ == '__main__':
