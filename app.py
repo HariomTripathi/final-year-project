@@ -21,7 +21,7 @@ regressor = pickle.load(open(filename, 'rb'))
 
 @app.route('/')
 def index():
-    if 'userid' in session:
+    if 'username' in session:
         return redirect('/home')
     else:
         return render_template('index.html')
@@ -29,7 +29,7 @@ def index():
 
 @app.route('/home')
 def home():
-    if 'userid' in session:
+    if 'username' in session:
         return render_template('home.html', username=session['username'])
     else:
         return redirect('/')
@@ -51,10 +51,12 @@ def SigninAuthentication():
                 msg = 'Invalid Credentials. Please Try Again!'
             else:
                 session['username'] = row[1]
-                session['userid'] = row[0]
+                session['password'] = row[2]
                 session['mobno'] = row[4]
-                return redirect('/home')
-    return render_template('index.html', msg)
+                session['email'] = row[3]
+                session['subscription'] = row[5]
+                return redirect('/directlogin')
+    return redirect('/', msg)
 
 
 @app.route('/RegisterAuthentication', methods=['POST', 'GET'])
@@ -69,66 +71,94 @@ def RegisterAuthentication():
         if username == "" or password == "" or email == "":
             msg = 'All Fields are required!'
         else:
-            a='0'
-            cur.execute("INSERT INTO accounts (username, password, email, mobileno, subscription) VALUES (%s,%s,%s,%s,%s)",(username, password, email, mobno, a))
-            con.commit()
-            cur.execute('select * from accounts where username=%s and password=%s', (username, password))
-            row = cur.fetchone()
             session['username'] = username
-            session['userid'] = row[0]
+            session['password'] = password
             session['mobno'] = mobno
-            return redirect('/home')
-    return render_template('index.html', msg)
+            session['email'] = email
+            return redirect('/directlogin')
+    return redirect('/', msg)
 
 
-@app.route('/OtpAuthentication')
-def OtpAuthentication():
-    if 'userid' in session:
+# @app.route('/OtpAuthentication')
+# def OtpAuthentication():
+#     if 'username' in session:
+#         mobno = session['mobno']
+#         val = getOTPApi(mobno)
+#         if val:
+#             return render_template('getotp.html')
+#     else:
+#         return redirect('/')
+
+
+# def getOTPApi(mobno):
+#     account_sid = 'AC176c49b0ef6b5b8a84fd359c6c3464b1'
+#     auth_token = 'ed8cbcf7b1c6ae44a89f3c82ffb9b4e1'
+#     client = Client(account_sid, auth_token)    
+#     otp = random.randrange(100000, 999999)
+#     session['response'] = str(otp)
+#     body = 'Your Otp is ' + str(otp)
+#     message = client.messages.create(
+#         messaging_service_sid='MGcc756f34d7fc6c331b6eced9137df867',
+#         body=body,
+#         to=mobno
+#     )
+#     if message.sid:
+#         return True
+#     else:
+#         return False
+
+
+# @app.route('/ValidateOTP', methods=['Post'])
+# def ValidateOTP():
+#     otpe = request.form['otpe']
+#     if 'response' in session:
+#         otp = session['response']
+#         session.pop('response', None)
+#         if otp == otpe:
+#             if 'subscription' in session:
+#                 session['loggedin'] = True
+#                 return redirect('/home')
+#             else:
+#                 a='0'
+#                 username = session['username']
+#                 password = session['password']
+#                 mobno = session['mobno']
+#                 email = session['email']
+#                 cur.execute("INSERT INTO accounts (username, password, email, mobileno, subscription) VALUES (%s,%s,%s,%s,%s)",(username, password, email, mobno, a))
+#                 con.commit()
+#                 session['subscription'] = a
+#                 session['loggedin'] = True
+#                 return redirect('/home')
+#         else:
+#             return redirect('/logout')
+
+
+@app.route('/directlogin')
+def directlogin():
+    if 'subscription' in session:
+        session['loggedin'] = True
+        return redirect('/home')
+    else:
+        a='0'
+        username = session['username']
+        password = session['password']
         mobno = session['mobno']
-        val = getOTPApi(mobno)
-        if val:
-            return render_template('getotp.html')
-    else:
-        return redirect('/')
-
-
-def getOTPApi(mobno):
-    account_sid = 'AC176c49b0ef6b5b8a84fd359c6c3464b1'
-    auth_token = 'f023d4dc6bf6c0f4a6578059d488f705'
-    client = Client(account_sid, auth_token)
-    otp = random.randrange(100000, 999999)
-    session['response'] = str(otp)
-    body = 'Your Otp is ' + str(otp)
-    message = client.messages.create(
-        messaging_service_sid='MGcc756f34d7fc6c331b6eced9137df867',
-        body=body,
-        to=mobno
-    )
-    if message.sid:
-        return True
-    else:
-        return False
-
-
-@app.route('/ValidateOTP', methods=['Post'])
-def ValidateOTP():
-    otpe = request.form['otpe']
-    if 'response' in session:
-        otp = session['response']
-        session.pop('response', None)
-        if otp == otpe:
-            session['loggedin'] = True
-            return redirect('/home')
-        else:
-            return redirect('/logout')
+        email = session['email']
+        cur.execute("INSERT INTO accounts (username, password, email, mobileno, subscription) VALUES (%s,%s,%s,%s,%s)",(username, password, email, mobno, a))
+        con.commit()
+        session['subscription'] = a
+        session['loggedin'] = True
+        return redirect('/home')
 
 
 @app.route('/logout')
 def logout():
-    session.pop('userid')
-    session.pop('username')
-    session['loggedin'] = False
+    session.pop('password')
+    session.pop('email')
     session.pop('mobno')
+    session.pop('username')
+    session.pop('subscription')
+    session['loggedin'] = False
     return redirect('/')
 
 
