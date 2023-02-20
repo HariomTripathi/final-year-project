@@ -94,7 +94,7 @@ def OtpAuthentication():
 
 def getOTPApi(mobno):
     account_sid = 'AC176c49b0ef6b5b8a84fd359c6c3464b1'
-    auth_token = 'b319534b1dbdda4a6c4174183dd12efb'
+    auth_token = 'f023d4dc6bf6c0f4a6578059d488f705'
     client = Client(account_sid, auth_token)
     otp = random.randrange(100000, 999999)
     session['response'] = str(otp)
