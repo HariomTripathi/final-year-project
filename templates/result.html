@@ -69,9 +69,13 @@
 
 			<!-- Result -->
 			<div class="results">
-				<p class='result-p'>The final predicted score (range): {{ lower_limit }} to {{ upper_limit }}</p>
+                {% if(lower_limit != upper_limit) %}
+				    <p class='result-p'>The final predicted score (range): {{ lower_limit }} to {{ upper_limit }}</p>
+                {% else %}
+                    <p class='result-p'>Batting Team and Bowling Team cannot be same!</p>
+                {% endif %}
 			</div>
-
+ 
             <!-- IPL Banner - 2 -->
             <div class='ipl-banner-right'>
 
@@ -116,15 +120,6 @@
 
             </div>
         </div>
-
-        <!-- Footer -->
-       <div class='footer'>
-           <div class="contact">
-               <a target="_blank" href="https://github.com/anujvyas/IPL-First-Innings-Score-Prediction-Deployment"><i class="fab fa-github fa-lg contact-icon"></i></a>
-               <a target="_blank" href="https://www.linkedin.com/in/anujkvyas"><i class="fab fa-linkedin fa-lg contact-icon"></i></a>
-           </div>
-           <p class='footer-description'>Made with ❤️ by Anuj Vyas.</p>
-       </div>
 
     </body>
 </html>

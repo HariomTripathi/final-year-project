@@ -6,6 +6,10 @@ import pymysql
 from twilio.rest import Client
 import pickle
 import numpy as np
+import re
+import requests
+from bs4 import BeautifulSoup
+import time
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -30,6 +34,19 @@ def index():
 @app.route('/home')
 def home():
     if 'username' in session:
+        # a=0
+        # url="https://www.iplt20.com/match/2023/857"
+
+        # while(a<10):
+        #     r=requests.get(url)
+        #     htmlcotent=r.content
+        #     soup=BeautifulSoup(htmlcotent,'html.parser')
+        #     score=soup.find('div',class_='ap-total-runs ng-binding ng-scope').get_text()
+        #     s="".join(re.split("[^a-zA-Z]*", score))
+        #     t=(len(s))
+        #     print(score)
+        #     return render_template('home.html', username=session['username'], score = score)
+        #     time.sleep(10)
         return render_template('home.html', username=session['username'])
     else:
         return redirect('/')
@@ -77,60 +94,6 @@ def RegisterAuthentication():
             session['email'] = email
             return redirect('/directlogin')
     return redirect('/', msg)
-
-
-# @app.route('/OtpAuthentication')
-# def OtpAuthentication():
-#     if 'username' in session:
-#         mobno = session['mobno']
-#         val = getOTPApi(mobno)
-#         if val:
-#             return render_template('getotp.html')
-#     else:
-#         return redirect('/')
-
-
-# def getOTPApi(mobno):
-#     account_sid = 'AC176c49b0ef6b5b8a84fd359c6c3464b1'
-#     auth_token = 'ed8cbcf7b1c6ae44a89f3c82ffb9b4e1'
-#     client = Client(account_sid, auth_token)    
-#     otp = random.randrange(100000, 999999)
-#     session['response'] = str(otp)
-#     body = 'Your Otp is ' + str(otp)
-#     message = client.messages.create(
-#         messaging_service_sid='MGcc756f34d7fc6c331b6eced9137df867',
-#         body=body,
-#         to=mobno
-#     )
-#     if message.sid:
-#         return True
-#     else:
-#         return False
-
-
-# @app.route('/ValidateOTP', methods=['Post'])
-# def ValidateOTP():
-#     otpe = request.form['otpe']
-#     if 'response' in session:
-#         otp = session['response']
-#         session.pop('response', None)
-#         if otp == otpe:
-#             if 'subscription' in session:
-#                 session['loggedin'] = True
-#                 return redirect('/home')
-#             else:
-#                 a='0'
-#                 username = session['username']
-#                 password = session['password']
-#                 mobno = session['mobno']
-#                 email = session['email']
-#                 cur.execute("INSERT INTO accounts (username, password, email, mobileno, subscription) VALUES (%s,%s,%s,%s,%s)",(username, password, email, mobno, a))
-#                 con.commit()
-#                 session['subscription'] = a
-#                 session['loggedin'] = True
-#                 return redirect('/home')
-#         else:
-#             return redirect('/logout')
 
 
 @app.route('/directlogin')
@@ -323,8 +286,10 @@ def predict():
             temp_array = temp_array + [0,0,0,0,0,0,1,0]
         elif bowling_team == 'Sunrisers Hyderabad':
             temp_array = temp_array + [0,0,0,0,0,0,0,1]
-            
-            
+        
+        if batting_team == bowling_team:
+            return render_template('result.html', lower_limit = 0, upper_limit = 0)
+
         overs = float(request.form['overs'])
         runs = int(request.form['runs'])
         wickets = int(request.form['wickets'])
@@ -336,7 +301,7 @@ def predict():
         data = np.array([temp_array])
         my_prediction = int(regressor.predict(data)[0])
               
-        return render_template('result.html', lower_limit = my_prediction-10, upper_limit = my_prediction+5)
+        return render_template('result.html', lower_limit = my_prediction, upper_limit = my_prediction+10)
 
 
 @app.route('/csk')
